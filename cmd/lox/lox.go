@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"text/scanner"
 	"strings"
 	"os"
 )
@@ -43,8 +44,8 @@ func RunScript(path string) error {
 
 // RunPrompt Lox REPL
 func RunPrompt() error {
+	reader := bufio.NewReader(os.Stdin)
 	for {
-		reader := bufio.NewReader(os.Stdin)
 		fmt.Print(">>> ")
 		message, err := reader.ReadString('\n')
 		if err != nil {
@@ -65,7 +66,12 @@ func RunPrompt() error {
 	return nil
 }
 
-func run(source string) error {
-
+func run(src string) error {
+	var s scanner.Scanner
+	s.Init(strings.NewReader(src))
+	s.Filename = "lox"
+	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
+		fmt.Printf("%s: %s\n", s.Position, s.TokenText())
+	}
 	return nil
 }
