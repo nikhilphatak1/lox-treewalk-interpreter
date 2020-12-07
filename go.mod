@@ -1,3 +1,3 @@
 module github.com/nikhilphatak1/lox-treewalk-interpreter
 
-go 1.13
+go 1.15
