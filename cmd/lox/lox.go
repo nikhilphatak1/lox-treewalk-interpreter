@@ -16,9 +16,9 @@ func main() {
 		log.Println("Usage: `lox` for prompt or `lox $SCRIPT` to run script")
 		os.Exit(1)
     } else if len(os.Args) == 2 {
-		err = RunScript(os.Args[1])
+		err = runScript(os.Args[1])
 	} else {
-		err = RunPrompt()
+		err = runPrompt()
 	}
 
 	if err != nil {
@@ -28,7 +28,7 @@ func main() {
 }
 
 // RunScript run Lox script
-func RunScript(path string) error {
+func rnScript(path string) error {
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Panicln("Unable to read file.", err)
@@ -43,7 +43,7 @@ func RunScript(path string) error {
 }
 
 // RunPrompt Lox REPL
-func RunPrompt() error {
+func runPrompt() error {
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Print(">>> ")
@@ -58,9 +58,7 @@ func RunPrompt() error {
 		}
 
 		err = run(message)
-		if err != nil {
-			return err
-		}
+		err = nil
 	}
 
 	return nil
@@ -74,4 +72,12 @@ func run(src string) error {
 		fmt.Printf("%s: %s\n", s.Position, s.TokenText())
 	}
 	return nil
+}
+
+func sendError(line int, message string) {
+	reportError(line, "", message)
+}
+
+func reportError(line int, where string, message string) {
+	log.Println("[line", line, "] Error", where, ":", message)
 }
