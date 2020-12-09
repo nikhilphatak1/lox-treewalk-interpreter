@@ -28,7 +28,7 @@ func main() {
 }
 
 // RunScript run Lox script
-func rnScript(path string) error {
+func runScript(path string) error {
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Panicln("Unable to read file.", err)
