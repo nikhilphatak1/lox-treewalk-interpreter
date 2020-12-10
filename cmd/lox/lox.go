@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"text/scanner"
 	"strings"
 	"os"
+	"github.com/nikhilphatak1/lox-treewalk-interpreter/internal/lox"
 )
 
 func main() {
@@ -65,12 +65,16 @@ func runPrompt() error {
 }
 
 func run(src string) error {
-	var s scanner.Scanner
-	s.Init(strings.NewReader(src))
-	s.Filename = "lox"
-	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
-		fmt.Printf("%s: %s\n", s.Position, s.TokenText())
+	loxScanner := lox.NewScanner(src)
+	tokens, err := loxScanner.ScanTokens()
+	if err != nil {
+		return err
 	}
+
+	for _, tok := range tokens {
+		fmt.Printf("%s\n", tok.String())
+	}
+
 	return nil
 }
 
