@@ -44,6 +44,15 @@ func (e *BinaryExpr) Accept(visitor ExprVisitor) interface{} {
 	return visitor.VisitBinaryExpr(e)
 }
 
+// NewBinaryExpr make a BonaryExpr
+func NewBinaryExpr(left Expr, operator Token, right Expr) *BinaryExpr {
+	binaryExpr := BinaryExpr{}
+	binaryExpr.left = left
+	binaryExpr.right = right
+	binaryExpr.operator = operator
+	return &binaryExpr
+}
+
 // CallExpr implements Expr
 type CallExpr struct {
 	callee Expr
@@ -85,6 +94,13 @@ type LiteralExpr struct {
 // Accept accept visitor
 func (e *LiteralExpr) Accept(visitor ExprVisitor) interface{} {
 	return visitor.VisitLiteralExpr(e)
+}
+
+// NewLiteralExpr new literal expression
+func NewLiteralExpr(literal interface{}) *LiteralExpr {
+	literalExpr := LiteralExpr{}
+	literalExpr.value = literal
+	return &literalExpr
 }
 
 // LogicalExpr implements Expr
@@ -141,6 +157,14 @@ type UnaryExpr struct {
 // Accept accept visitor
 func (e *UnaryExpr) Accept(visitor ExprVisitor) interface{} {
 	return visitor.VisitUnaryExpr(e)
+}
+
+// NewUnaryExpr make a unary expr
+func NewUnaryExpr(operator Token, right Expr) *UnaryExpr {
+	unary := UnaryExpr{}
+	unary.operator = operator
+	unary.right = right
+	return &unary
 }
 
 // VariableExpr implements Expr
