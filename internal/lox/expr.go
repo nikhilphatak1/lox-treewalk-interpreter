@@ -86,6 +86,13 @@ func (e *GroupingExpr) Accept(visitor ExprVisitor) interface{} {
 	return visitor.VisitGroupingExpr(e)
 }
 
+// NewGroupingExpr new grouping expression
+func NewGroupingExpr(expr Expr) *GroupingExpr {
+	grouping := GroupingExpr{}
+	grouping.expression = expr
+	return &grouping
+}
+
 // LiteralExpr implements Expr
 type LiteralExpr struct {
 	value interface{}
